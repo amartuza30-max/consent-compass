@@ -1,0 +1,62 @@
+{
+  "name": "consent-compass",
+  "description": "Plans permission checkpoints for browser and agent actions.",
+  "front_man": "consent_coordinator",
+  "private_context": {
+    "default": "deny",
+    "allowed_downstream_fields": ["action_text", "destination", "data_categories"],
+    "allowed_upstream_fields": ["risk_level", "reasons", "checkpoints"]
+  },
+  "tools": [
+    {
+      "name": "consent_coordinator",
+      "function": {
+        "description": "Create a concise permission plan for a proposed agent action.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action_text": {"type": "string", "minLength": 3},
+            "destination": {"type": "string"},
+            "data_categories": {"type": "array", "items": {"type": "string"}}
+          },
+          "required": ["action_text"]
+        }
+      },
+      "instructions": "Delegate risk classification to risk_analyst, then produce a plain-language plan. Never claim an external action occurred.",
+      "tools": ["risk_analyst", "analyze_action"]
+    },
+    {
+      "name": "risk_analyst",
+      "function": {
+        "description": "Classify privacy, financial, identity, publication and irreversible-action risk.",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "action_text": {"type": "string"},
+            "destination": {"type": "string"},
+            "data_categories": {"type": "array", "items": {"type": "string"}}
+          },
+          "required": ["action_text"]
+        }
+      },
+      "instructions": "Use only supplied fields. Identify uncertainty explicitly and require approval before writes, publication, money movement, identity disclosure or irreversible changes.",
+      "tools": ["analyze_action"]
+    }
+  ],
+  "site_actions": [
+    {
+      "name": "analyze_action",
+      "description": "Perform deterministic, local risk analysis without network access.",
+      "effect": "read-only",
+      "parameters": {
+        "type": "object",
+        "properties": {
+          "action_text": {"type": "string"},
+          "destination": {"type": "string"},
+          "data_categories": {"type": "array", "items": {"type": "string"}}
+        },
+        "required": ["action_text"]
+      }
+    }
+  ]
+}

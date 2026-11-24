@@ -1,0 +1,21 @@
+{
+  "spec_version": "0.2",
+  "name": "consent-compass",
+  "description": "A browser-local agent network that converts proposed actions into explicit permission plans.",
+  "front_man": "consent_coordinator",
+  "hocon": "./consent-compass.network.json",
+  "links": "./links.json",
+  "runtime": "./runtime.js",
+  "peer_policy": "allowlist",
+  "allowed_peers": [],
+  "llm_config": {
+    "router": "local-deterministic",
+    "model": "consent-rules-v1",
+    "byok": false
+  },
+  "limits": {
+    "max_agent_invocations": 8,
+    "max_elapsed_ms": 5000,
+    "max_peer_depth": 0
+  }
+}

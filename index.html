@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Consent Compass creates explicit approval plans for agent actions before anything leaves the browser.">
+  <title>Consent Compass</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="shell topbar">
+    <a class="brand" href="#">Consent Compass</a>
+    <div class="status"><span class="dot"></span> Local runtime</div>
+  </header>
+
+  <main class="shell">
+    <section class="hero">
+      <p class="eyebrow">Open Agentic Web · Human control layer</p>
+      <h1>See the permission plan<br>before the agent acts.</h1>
+      <p class="lede">Describe a proposed action. A portable two-agent network classifies risk, identifies data leaving the browser, and builds approval checkpoints—with no account, API key, or server.</p>
+    </section>
+
+    <section class="workspace" aria-label="Consent planner">
+      <form id="action-form" class="panel input-panel">
+        <div class="panel-heading">
+          <span class="step">01</span>
+          <div><h2>Proposed action</h2><p>What should the agent attempt?</p></div>
+        </div>
+
+        <label for="action">Action</label>
+        <textarea id="action" required minlength="3" placeholder="Example: Email the completed report to the project sponsor">Email the completed report to the project sponsor</textarea>
+
+        <label for="destination">Destination</label>
+        <input id="destination" placeholder="Example: sponsor@example.org" value="External project sponsor">
+
+        <fieldset>
+          <legend>Data involved</legend>
+          <div class="chips">
+            <label><input type="checkbox" value="contact information" checked><span>Contact info</span></label>
+            <label><input type="checkbox" value="private files" checked><span>Private files</span></label>
+            <label><input type="checkbox" value="financial data"><span>Financial</span></label>
+            <label><input type="checkbox" value="identity data"><span>Identity</span></label>
+            <label><input type="checkbox" value="public content"><span>Public post</span></label>
+          </div>
+        </fieldset>
+
+        <button class="primary" type="submit">Build permission plan <span>→</span></button>
+        <p class="microcopy">Analysis stays in this tab. Nothing is sent.</p>
+      </form>
+
+      <section class="panel result-panel" aria-live="polite">
+        <div class="panel-heading">
+          <span class="step">02</span>
+          <div><h2>Decision map</h2><p id="runtime-state">Runtime ready</p></div>
+        </div>
+        <div id="empty-state" class="empty-state">
+          <div class="compass">✦</div>
+          <p>Your risk level and checkpoints will appear here.</p>
+        </div>
+        <div id="result" hidden>
+          <div class="risk-row">
+            <div><span class="label">Risk level</span><strong id="risk-badge">—</strong></div>
+            <div><span class="label">Network calls</span><strong>0</strong></div>
+            <div><span class="label">Agent steps</span><strong id="agent-steps">2</strong></div>
+          </div>
+          <h3>Why this needs attention</h3>
+          <ul id="reasons" class="reason-list"></ul>
+          <h3>Approval checkpoints</h3>
+          <ol id="checkpoints" class="checkpoint-list"></ol>
+          <div class="decision-box">
+            <label><input id="approve" type="checkbox"> I reviewed the destination, data, and effect</label>
+            <button id="record" class="secondary" type="button" disabled>Record approval</button>
+          </div>
+          <div class="result-actions">
+            <button id="export" class="ghost" type="button">Export audit JSON</button>
+            <span id="decision-status">Not approved</span>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <section class="architecture">
+      <div>
+        <p class="eyebrow">Portable by design</p>
+        <h2>A small agent network with a visible trust boundary.</h2>
+      </div>
+      <div class="flow" aria-label="Agent flow">
+        <div class="flow-card"><b>1</b><span>Consent coordinator</span><small>Frames the request</small></div>
+        <div class="arrow">→</div>
+        <div class="flow-card"><b>2</b><span>Risk analyst</span><small>Grounded local action</small></div>
+        <div class="arrow">→</div>
+        <div class="flow-card accent"><b>3</b><span>Human checkpoint</span><small>Explicit approval</small></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="shell">
+    <span>MIT licensed · Open Agentic Web MVP 0.2</span>
+    <a href="agent-manifest.json">View agent manifest</a>
+  </footer>
+  <script type="module" src="runtime.js"></script>
+</body>
+</html>
